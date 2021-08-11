@@ -3,19 +3,21 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"strings"
 )
 
 func main() {
-	Playtime p := new Playtime()
+	
+	inTheGame()
 
 }
 
-func askAndGetString(int i) string{
+func askAndGetString(i int) string{
 	if(i == 0){
-		fmt.println(PLEASE_ENTER_CORRECT)
-	}
-	else if(i == 1){
-		fmt.printlnn(INTROLINE)
+		fmt.Println("Thank you for starting the game. Please type P for Paper, R for Rock" +
+		" and S for Scissor. Type E to end the game. This is not case sensitive")
+	} else if(i == 1){
+		fmt.Println("Please could you enter P, R, S or E")
 	}
 	var val string
     fmt.Scanln(&val)
@@ -23,20 +25,21 @@ func askAndGetString(int i) string{
 }
 
 
-func retfixedResponse(string s) string{
-	var hold string := s
+func retfixedResponse(s string) string{
+	var hold string = s
 	for true{
-		var cap string = hold.toUpperCase();
+		var cap string = strings.ToUpper(hold)
 		if cap == "E" || cap == "R" || cap == "S" || cap == "P" {
-			return cap.charAt(0)
+			return string(cap[0])
 		}else {
 			hold = askAndGetString(0)
 		}
 	}
+	return "E"
 }
 
 func getRandomChar() string{
-	var int randomNum := rand.Intn(3)
+	var randomNum int = rand.Intn(3)
 	if randomNum == 0{
 		return "P";
 	}else if randomNum == 1{
@@ -47,53 +50,55 @@ func getRandomChar() string{
 
 }
 
-func checkValue(string c) int{
-	var string randChar := getRandomChar();
-	if c == "R" && randChar == "R") {
-		System.out.println("Tied game between Rock and Rock");
+func checkValue(c string) int{
+	var randChar string = getRandomChar();
+	if c == "R" && randChar == "R" {
+		fmt.Println("Tied game between Rock and Rock");
 		return 0;
 	}else if c == "S" && randChar == "S"{
-		System.out.println("Tied game between Scissor and Scissor");
+		fmt.Println("Tied game between Scissor and Scissor");
 		return 0;
 	}else if c == "P" && randChar == "P"{
-		System.out.println("Tied game between Paper and Paper");
+		fmt.Println("Tied game between Paper and Paper");
 		return 0;
 	}else if c == "R" && randChar == "S" {
-		System.out.println("You Win. You chose Rock and it chose Scissor");
+		fmt.Println("You Win. You chose Rock and it chose Scissor");
 		return 1;
 	}else if c == "R" && randChar == "P" {
-		System.out.println("You Lost. You chose Rock and it chose Paper");
+		fmt.Println("You Lost. You chose Rock and it chose Paper");
 		return -1;
 	}else if c == "S" && randChar == "P" {
-		System.out.println("You Win. You chose Scissor and it chose Paper");
+		fmt.Println("You Win. You chose Scissor and it chose Paper");
 		return 1;
 	}else if c == "S" && randChar == "R" {
-		System.out.println("You Lost. You chose Scissor and it chose Rock");
+		fmt.Println("You Lost. You chose Scissor and it chose Rock");
 		return -1;
 	}else if c == "P" && randChar == "R" {
-		System.out.println("You Win. You chose Paper and it chose Rock");
+		fmt.Println("You Win. You chose Paper and it chose Rock");
 		return 1;
 	}else {
-		System.out.println("You Lost. You chose Paper and it chose Scissor");
+		fmt.Println("You Lost. You chose Paper and it chose Scissor");
 		return -1;
 	}
 }
 
 func inTheGame(){
-	var int win_tracker = 0;
-	var int lose_tracker = 0;
-	while true{
-		String s := askAndGetString(1);
-		char c := retfixedResponse(s);
-		if(c == 'E'){
+
+	var win int= 0
+	var lose int = 0
+
+	for true  {
+		var s string = askAndGetString(1);
+		var c string = retfixedResponse(s);
+		if(c == "E"){
 			break;
 		}
-		var int b := checkValue(c);
+		b := checkValue(c);
 		if b < 0{
-			lose_tracker++;
+			lose += 1
 		}else if b > 0{
-			win_tracker++;
+			win += 1
 		}
-		System.out.printf("You have %d wins and %d loses. ", win_tracker, lose_tracker);
+		fmt.Printf("You have %d wins and %d loses. ", win, lose);
 	}
 }
